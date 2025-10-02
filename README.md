@@ -1,86 +1,45 @@
-ESP32 Heater ML Pipeline
+# 🔥 ML-Driven Thermal Control Data Logger (ESP32 & Python Pipeline)
 
-This repository contains the full machine learning pipeline for modeling and predicting the behavior of an ESP32-controlled heating system.
-The pipeline processes experimental logs (both stabilized sweeps and dynamic sweeps) to train models that:
+A complete project for generating comprehensive machine learning datasets from a temperature-controlled heating element, followed by a Python pipeline to model the system's thermal dynamics and predict optimal heater control.
 
-Stage A: Predict the room temperature (BME sensor) from heater thermistor and outside temperature.
+The system uses an **ESP32** to execute a two-phase PWM sweep protocol, collecting highly filtered data from multiple thermistors and environmental sensors. The collected data is then processed by a **Python script** to train a two-stage Random Forest model for predicting system state and control action.
 
-Stage B: Predict heater PWM control decisions based on Stage A predictions, environmental sensors, and simulated activity.
+## ⚙️ Part 1: ESP32 Firmware (Data Acquisition Protocol)
 
-📂 Project Structure
-.
-├── data/                  # CSV log files from experiments
-│   ├── Dynamic_*.csv
-│   ├── Stabilized_*.csv
-├── ESP32_Heater_Pipeline.py   # Full Python pipeline
-├── ESP32_Heater_ML_Report.docx  # Detailed report with analysis
-├── README.md
+The firmware on the ESP32 drives the heater through a structured protocol and logs sensor data to an SD card with filtering and buffering.
 
-⚙️ Requirements
+### ✨ Key Firmware Features
 
-Install the required Python libraries:
+* **Dual-Phase PWM Protocol:** Executes two distinct testing phases to capture different thermal behaviors:
+    1.  **Stabilized Sweep:** Runs the heater through a predefined $0 \rightarrow \text{max} \rightarrow 0$ PWM cycle, waiting for the system temperature to **stabilize** at each level to capture steady-state thermodynamics.
+    2.  **Dynamic Sweep:** Immediately follows the stabilized sweep with a randomized sequence of PWM levels, each held for a **random duration** (1-5 minutes), to capture transient thermal responses for robust ML training.
+* **Advanced Sensor Filtering:** Thermistor readings are processed with a two-step noise reduction: **Sample Averaging** followed by an **Exponential Moving Average (EMA)** filter, ensuring clean, reliable data for the ML model.
+* **Comprehensive Sensor Suite:**
+    * **7 Thermistors (D39, D34, etc.):** Multiple points for temperature measurement.
+    * **BME280:** Measures ambient **Temperature, Humidity, and Pressure**.
+    * **INA260:** Measures **Voltage, Current, and Power** of the heater.
+    * **DS3231 RTC:** Provides highly accurate **timestamps** for all log entries.
+* **Efficient Data Logging:** Logs data to **two separate CSV files** (`Stabilized_...csv` and `Dynamic_...csv`) on an SD card, using **buffered writes** to improve performance and card longevity.
+* **Real-time Diagnostics:** Uses an **SSD1306 OLED** to display the current protocol state, PWM duty cycle, temperature stability metrics, and heater power in real-time.
 
+### 🔌 Hardware & Wiring Summary
+
+| Component | ESP32 Pin (GPIO) | Interface | Notes |
+| :--- | :--- | :--- | :--- |
+| **Heater PWM Control** | `GPIO_NUM_15` | $\text{LEDC} \text{ PWM}$ | 10-bit resolution (0-1023) |
+| **Thermistors (x7)** | `GPIO_NUM_39`, `34`, `35`, `32`, `33`, `25`, `26` | $\text{ADC}$ | Must be connected via voltage divider circuit |
+| **INA260** | $\text{SDA}$ (`21`), $\text{SCL}$ (`22`) | $\text{I2C}$ | Address `0x40` |
+| **BME280 / DS3231** | $\text{SDA}$ (`21`), $\text{SCL}$ (`22`) | $\text{I2C}$ | Shares bus with $\text{INA260}$ and $\text{OLED}$ |
+| **SD Card CS** | `GPIO_NUM_5` | $\text{SPI}$ | Chip Select for $\text{SD}$ Card Module |
+
+---
+
+## 💻 Part 2: Python ML Pipeline (`ESP32_Heater_Pipeline.py`)
+
+This script is the back-end data processor and model training environment, designed to turn the raw experimental logs into actionable predictive models.
+
+### 🚀 Usage and Requirements
+
+**Requirements:**
+```bash
 pip install pandas numpy scikit-learn
-
-🚀 Usage
-
-Place your CSV logs inside the data/ directory.
-Filenames should begin with Dynamic_ or Stabilized_.
-
-Run the pipeline:
-
-python ESP32_Heater_Pipeline.py
-
-
-The script will:
-
-Load and merge all log files
-
-Preprocess missing values
-
-Train Stage A (Random Forest Regressor) to predict room temperature
-
-Train Stage B (Random Forest Classifier) to predict heater PWM control
-
-Print metrics, feature importance, and summaries
-
-📊 Results
-
-Stage A:
-
-Test MAE ≈ 0.7 °C
-
-R² ≈ 0.97 (excellent fit)
-
-Stage B:
-
-Accuracy ≈ 65–75% depending on dataset size and sweeps used
-
-Feature importance highlights strong dependence on heater thermistor, room temperature, and environmental context
-
-🔍 Key Insights
-
-Stabilized sweeps anchor the steady-state thermal relationships.
-
-Dynamic sweeps capture transient heating/cooling trajectories.
-
-Stage A provides a physics-informed foundation by isolating thermal dynamics.
-
-Stage B adds control logic, predicting PWM with environmental context.
-
-Adding more sweeps can reduce accuracy due to higher run-to-run variability — indicating that additional feature engineering or temporal modeling may be needed.
-
-📈 Next Steps
-
-Incorporate temporal features (lagged inputs, moving averages).
-
-Replace activity_sim with real occupancy-driven setpoints.
-
-Explore finer PWM resolution or a regression approach.
-
-Add hyperparameter tuning and ensemble methods.
-
-📝 Documentation
-
-See the full technical write-up here:
-📄 ESP32 Heater ML Pipeline Report
