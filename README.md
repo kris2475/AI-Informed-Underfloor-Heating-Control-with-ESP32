@@ -12,7 +12,7 @@ This model is a **legitimate, solid, and preemptive** solution, engineered speci
 
 The architecture confirms that the model reliably predicts the required PWM based on **environmental variables, current thermal state, and future demand** (occupancy/schedule):
 
-* **Preemptive Prediction (The Proof):** All lagged PWM data was intentionally removed. This forced the model to rely solely on physics-based variables ($T_{Outside}$, $\mathbf{T_{Heater\_Delta\_5min}}$) to determine the next action, making the controller **predictive** rather than merely correlative.
+* **Preemptive Prediction (The Proof):** All lagged PWM data was intentionally removed. This forced the model to rely solely on physics-based variables (**T\_Outside**, **T\_Heater\_Delta\_5min**) to determine the next action, making the controller **predictive** rather than merely correlative.
 * **All Variables Integrated:** The model successfully incorporates the three pillars of control—**Environment, State, and User Demand** (required room temp settings/activity)—to calculate the necessary PWM for that specific moment.
 * **Physics Over Goal:** The **negligible importance of the demand setpoint** is a technical strength, confirming the model calculates energy based on **thermal dynamics** (heat loss and rate of change) rather than simply correlating its output with the target goal.
 
@@ -120,8 +120,6 @@ The overall $\text{MAE}$ of **$97.92$ PWM** is an average that masks the model's
 ## Conclusion and Next Steps
 
 The project successfully delivered a **robust, proactive ML controller** built on sound physics and optimized for deployment. The controller reliably calculates the preemptive PWM needed right now, given the environment and the upcoming demand schedule.
-
-The superior model for deployment is the **LightGBM Regressor** using the **Non-Skewed Log Transform** and the **Thermal-Only Feature Set**. The next and final step is the conversion of this model into C++ for deployment on the ESP32.
 
 The superior model for deployment is the **LightGBM Regressor** using the **Non-Skewed Log Transform** and the **Thermal-Only Feature Set**. The next and final step is the conversion of this model into C++ for deployment on the ESP32.
 
