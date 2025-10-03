@@ -1,6 +1,6 @@
 # Comprehensive Report: Proactive ML Controller for ESP32 Heater
 
-**This project successfully delivers a foundational technology for next-generation smart thermal infrastructure, aligning with global decarbonisation efforts and regional energy reduction goals.** Traditional building control systems are reactive and energy-wasteful. This document details the development of a highly **optimised**, physics-driven **Proactive Machine Learning Controller** implemented on the ESP32 platform, achieving superior efficiency and ensuring a direct contribution to scalable energy reduction goals.
+**This project successfully delivers a high-quality, system-level engineering solution for next-generation smart thermal infrastructure, aligning with global decarbonisation efforts and regional energy reduction goals.** Traditional building control systems are reactive and energy-wasteful. This document details the development of a highly **optimised**, physics-driven **Proactive Machine Learning Controller** implemented on the ESP32 platform, achieving superior efficiency and ensuring a direct contribution to scalable energy reduction goals.
 
 ---
 
@@ -117,7 +117,23 @@ The overall $\text{MAE}$ of **$97.92$ PWM** is an average that masks the model's
 
 ---
 
-## Conclusion and Next Steps
+## 6. External Validation and Roadmap
+
+The architecture has been externally validated as a **"high-quality, system-level engineering work"** with a strong foundation in causal physics. The next steps will focus on transferring this applied research into a reliable production prototype.
+
+### Key Validation Points
+* **Causal Structure:** Validation confirmed that removing lagged PWM **"forced the model to learn causal structure,"** validating the proactive claim.
+* **Efficiency Priority:** The $\mathbf{\log(1 + \text{PWM})}$ transformation was noted as **"clever,"** correctly focusing precision on the low-power band where energy savings are maximised.
+* **Integrity:** The use of **Run-Aware Splitting** and **Train-Only Imputation** was confirmed to give the results high credibility, avoiding common data leakage pitfalls.
+
+### Production Roadmap (Next Steps)
+1.  **Deployment Strategy:** Research and implement a lightweight method (e.g., model-to-C++ conversion) to port the LightGBM inference logic efficiently onto the resource-constrained ESP32 hardware.
+2.  **Performance Tuning:** Execute formal **Hyperparameter Tuning** (Grid/Optuna Search) to increase the model's $R^2$ performance further.
+3.  **Closed-Loop Testing:** Plan and execute **Closed-Loop Validation** experiments on the physical hardware to confirm real-world performance under actual noise and saturation conditions.
+
+---
+
+## Conclusion
 
 The project successfully delivered a **robust, proactive ML controller** built on sound physics and **optimised** for deployment. The controller reliably calculates the preemptive PWM needed right now, given the environment and the upcoming demand schedule.
 
