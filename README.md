@@ -47,11 +47,11 @@ The final feature importance confirms the model is now **100% physics-driven**, 
 | **T\_Heater\_Delta\_5min** | **21.34%** | **Proactive Anticipation.** The rate of change ($\mathbf{\Delta T}$) is key to calculating system inertia and future ramp requirements. |
 | **T\_Heater** | **16.49%** | The current measured state of the heater. |
 
-### 2.3 The Role of Occupancy and Activity ($\mathbf{T_{Target\_Demand}}$)
+### 2.3 The Role of Occupancy and Activity (T\_Target\_Demand)
 
-The setpoint feature ($\mathbf{T_{Target\_Demand}}$) was included to define the system's goal. However, its final importance score was **negligible (less than 1%)**.
+The setpoint feature (**T\_Target\_Demand**) was included to define the system's goal. However, its final importance score was **negligible (less than 1%)**.
 
-**This is a positive confirmation of the model's robustness:** The model's predictive task is to calculate the **required energy** (PWM). It correctly determines this energy based on the **heat loss** ($\mathbf{T_{Outside}}$) and the **required rate of change** ($\mathbf{T_{Heater\_Delta\_5min}}$). The setpoint value itself is redundant to the energy calculation, proving the model is calculating the output based on **pure thermal dynamics**.
+**This is a positive confirmation of the model's robustness:** The model's predictive task is to calculate the **required energy** (PWM). It correctly determines this energy based on the **heat loss** (T\_Outside) and the **required rate of change** (**T\_Heater\_Delta\_5min**). The setpoint value itself is redundant to the energy calculation, proving the model is calculating the output based on **pure thermal dynamics**.
 
 ---
 
