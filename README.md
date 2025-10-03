@@ -40,11 +40,13 @@ The architecture was stabilized as a **Single-Stage Proactive Random Forest Regr
 
 The final feature set was optimized to restore predictive power lost in earlier proactive attempts:
 
-| Feature | Importance ($\%$) | Interpretation |
+| Feature | Importance (%) | Interpretation |
 | :--- | :--- | :--- |
-| **$\mathbf{PWM_{Applied\_lag\_5min}}$** | $\mathbf{94.35\%}$ | **Dominant Feature.** Reflects the system's high thermal inertia; the best single predictor is the control action from 5 minutes ago. |
-| **$\mathbf{T_{Outside}}$** | $0.85\%$ | The main influence on heat loss. |
-| **$\mathbf{T_{Heater\_lag\_10min}}$** | $0.73\%$ | Longer-term thermal history for stability. |
+| **PWM\_Applied\_lag\_5min** | **94.35%** | **Dominant Feature.** Reflects the system's high thermal inertia; the best single predictor is the control action from 5 minutes ago. |
+| **T\_Outside** | 0.85% | The main influence on heat loss (ambient temperature). |
+| **T\_Heater\_lag\_10min** | 0.73% | Longer-term thermal history for stability. |
+| **T\_Heater** | 0.68% | The current heater temperature reading. |
+| **T\_Heater\_lag\_1min** | 0.60% | Short-term thermal history. |
 
 ---
 
