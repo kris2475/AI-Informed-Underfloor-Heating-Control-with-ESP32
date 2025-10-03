@@ -1,6 +1,8 @@
 # Comprehensive Report: Proactive ML Controller for ESP32 Heater
 
-This document details the development, validation, and final performance of a machine learning controller designed to replace traditional PID control and achieve high energy efficiency in an ESP32-based heating system.
+**In alignment with the strategic objectives of ESP Net Zero and regional decarbonization efforts across areas like Swansea Bay, this project delivers a foundational technology for next-generation smart thermal infrastructure.** Traditional building control systems, such as PID, often introduce significant energy waste due to their reactive nature. This document details the development of a highly optimized, leakage-free **Proactive Machine Learning Controller** implemented on the ESP32 platform. By leveraging advanced regression techniques and meticulous data integrity protocols, this solution transforms reactive heating into predictive thermal management, achieving superior efficiency and ensuring the project's direct contribution to scalable, real-world energy reduction goals within the smart building portfolio.
+
+---
 
 ## 1. Data Acquisition and Quality Control (The Source)
 
