@@ -117,25 +117,19 @@ The overall $\text{MAE}$ of **$97.92$ PWM** is an average that masks the model's
 
 ---
 
-## 6. External Validation and Roadmap
-
-The architecture has been externally validated as a **"high-quality, system-level engineering work"** with a strong foundation in causal physics. The next steps will focus on transferring this applied research into a reliable production prototype.
-
-### Key Validation Points
-* **Causal Structure:** Validation confirmed that removing lagged PWM **"forced the model to learn causal structure,"** validating the proactive claim.
-* **Efficiency Priority:** The $\mathbf{\log(1 + \text{PWM})}$ transformation was noted as **"clever,"** correctly focusing precision on the low-power band where energy savings are maximised.
-* **Integrity:** The use of **Run-Aware Splitting** and **Train-Only Imputation** was confirmed to give the results high credibility, avoiding common data leakage pitfalls.
-
-### Production Roadmap (Next Steps)
-1.  **Deployment Strategy:** Research and implement a lightweight method (e.g., model-to-C++ conversion) to port the LightGBM inference logic efficiently onto the resource-constrained ESP32 hardware.
-2.  **Performance Tuning:** Execute formal **Hyperparameter Tuning** (Grid/Optuna Search) to increase the model's $R^2$ performance further.
-3.  **Closed-Loop Testing:** Plan and execute **Closed-Loop Validation** experiments on the physical hardware to confirm real-world performance under actual noise and saturation conditions.
-
----
-
-## Conclusion
+## Conclusion and Next Steps
 
 The project successfully delivered a **robust, proactive ML controller** built on sound physics and **optimised** for deployment. The controller reliably calculates the preemptive PWM needed right now, given the environment and the upcoming demand schedule.
 
-The superior model for deployment is the **LightGBM Regressor** using the **Non-Skewed Log Transform** and the **Thermal-Only Feature Set**. The next and final step is the conversion of this model into C++ for deployment on the ESP32.
+### Key Technical Achievements
+* **Causal Structure:** Removing lagged PWM ensured the model learned **causal structure**, strengthening the claim of proactive control.
+* **Efficiency Priority:** The $\mathbf{\log(1 + \text{PWM})}$ transformation successfully **prioritised precision** in the low-power band, maximizing energy savings.
+* **Integrity:** The use of **Run-Aware Splitting** and **Train-Only Imputation** ensures the reported performance metrics are credible and free from data leakage.
+
+### Next Steps (Roadmap to Production)
+1.  **Deployment Strategy:** Research and implement a lightweight method (e.g., model-to-C++ conversion) to port the LightGBM inference logic efficiently onto the resource-constrained ESP32 hardware.
+2.  **Performance Tuning:** Execute formal **Hyperparameter Tuning** (Grid/Optuna Search) to increase the model's $R^2$ performance further.
+3.  **Closed-Loop Testing:** Plan and execute **Closed-Loop Validation** experiments on the physical hardware to confirm real-world performance under actual dynamics and constraints.
+
+The superior model for deployment is the **LightGBM Regressor** using the **Non-Skewed Log Transform** and the **Thermal-Only Feature Set**.
 
