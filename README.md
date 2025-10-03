@@ -48,6 +48,12 @@ The final feature set was optimized to restore predictive power lost in earlier 
 | **T\_Heater** | 0.68% | The current heater temperature reading. |
 | **T\_Heater\_lag\_1min** | 0.60% | Short-term thermal history. |
 
+### 2.3 Inclusion of Occupancy and Activity
+
+The feature originally labeled `activity_sim` in the raw data was included in the model as $\mathbf{T_{Target\_Demand}}$, representing the simulated desired setpoint or "demand signal."
+
+While essential for defining the goal of the control system, this feature **did not contribute significantly** to the final predictive power. The model relies almost entirely on the measured thermal dynamics ($\mathbf{PWM}$ history and $\mathbf{T_{Outside}}$) to calculate the required energy input. This suggests the physics of the system's thermal response provides a much stronger signal for the necessary control action than the current demand setpoint.
+
 ---
 
 ## 3. Data Integrity and Leakage Mitigation
