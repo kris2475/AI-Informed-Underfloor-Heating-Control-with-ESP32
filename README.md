@@ -1,6 +1,6 @@
 # Comprehensive Report: Proactive ML Controller for ESP32 Heater
 
-**This project successfully delivers a foundational technology for next-generation smart thermal infrastructure, aligning with global decarbonization efforts and regional energy reduction goals.** Traditional building control systems are reactive and energy-wasteful. This document details the development of a highly optimized, physics-driven **Proactive Machine Learning Controller** implemented on the ESP32 platform, achieving superior efficiency and ensuring a direct contribution to scalable energy reduction goals.
+**This project successfully delivers a foundational technology for next-generation smart thermal infrastructure, aligning with global decarbonisation efforts and regional energy reduction goals.** Traditional building control systems are reactive and energy-wasteful. This document details the development of a highly **optimised**, physics-driven **Proactive Machine Learning Controller** implemented on the ESP32 platform, achieving superior efficiency and ensuring a direct contribution to scalable energy reduction goals.
 
 ---
 
@@ -24,12 +24,12 @@ The ML model's foundation is a high-quality dataset ($\mathbf{\sim 287,780}$ row
 
 ### 1.1 Experimental Protocol: Dual-Phase Sweep
 
-The data collection implemented a systematic, two-phase protocol to capture the full spectrum of the system's thermal behavior:
+The data collection implemented a systematic, two-phase protocol to capture the full spectrum of the system's thermal behaviour:
 
 | Phase | State | Control Action | Purpose |
 | :--- | :--- | :--- | :--- |
 | **Steady-State** | `STATE_STABILIZED_SWEEP` | Follows a fixed PWM sweep ($\mathbf{0} \rightarrow \mathbf{1020} \rightarrow \mathbf{0}$). **Waits for stability** ($\Delta T < 0.1^\circ \text{C}$) at every step. | Teaches the model the **precise, efficient** PWM required to hold a specific temperature against ambient loss. |
-| **Transient** | `STATE_DYNAMIC_SWEEP` | Uses **randomized PWM levels** held for a **random duration** (1–5 min). | Teaches the model the system's **thermal inertia and transient response** during rapid changes. |
+| **Transient** | `STATE_DYNAMIC_SWEEP` | Uses **randomised PWM levels** held for a **random duration** (1–5 min). | Teaches the model the system's **thermal inertia and transient response** during rapid changes. |
 
 ### 1.2 Data Filtering and Integrity
 
@@ -37,18 +37,18 @@ Data was logged at 1-second intervals. To mitigate noise, all raw thermistor rea
 
 ---
 
-## 2. ML Pipeline and Architectural Finalization
+## 2. ML Pipeline and Architectural Finalisation
 
-The final pipeline trains a controller that predicts the optimal $\mathbf{continuous}$ PWM duty cycle $\mathbf{10}$ minutes into the future. The architecture was stabilized after successfully eliminating the correlational features that made the initial models reactive.
+The final pipeline trains a controller that predicts the optimal $\mathbf{continuous}$ PWM duty cycle $\mathbf{10}$ minutes into the future. The architecture was stabilised after successfully eliminating the correlational features that made the initial models reactive.
 
 ### 2.1 Final Architecture
 
-The architecture combines the best feature set with a powerful algorithm to maximize proactive prediction:
+The architecture combines the best feature set with a powerful algorithm to maximise proactive prediction:
 
 | Component | Final Choice | Rationale |
 | :--- | :--- | :--- |
 | **Model** | **LightGBM Regressor** | **UPGRADED.** Replaced the less powerful Random Forest to achieve a $\mathbf{280\%}$ lift in $R^2$, successfully capturing the subtle signal of the thermal-only features. |
-| **Target Variable** | $\mathbf{\log(1 + \text{PWM}_{\text{Target}})}$ | Mathematically prioritizes accuracy at low power settings for energy efficiency (the "Weighted Goggles"). |
+| **Target Variable** | $\mathbf{\log(1 + \text{PWM}_{\text{Target}})}$ | Mathematically prioritises accuracy at low power settings for energy efficiency (the "Weighted Goggles"). |
 | **Features** | **Thermal-Only Set** | **CRITICAL FIX.** All lagged PWM features were removed to eliminate correlational dominance, forcing the model to rely solely on physics-based variables. |
 
 ### 2.2 Feature Importance (Proactive Confirmation)
@@ -90,14 +90,14 @@ The transformation guarantees the model dedicates its highest predictive effort 
 
 | PWM Range | Actual Absolute Error (Example) | Model’s Calculated Log Penalty | Resulting Action |
 | :--- | :--- | :--- | :--- |
-| **Low Power (e.g., 0–100)** | $\mathbf{10}$ PWM error | **HIGH Penalty** | **FORCES** the model to minimize this error. |
+| **Low Power (e.g., 0–100)** | $\mathbf{10}$ PWM error | **HIGH Penalty** | **FORCES** the model to minimise this error. |
 | **High Power (e.g., 900–1023)**| $\mathbf{100}$ PWM error | **LOW Penalty** | Model tolerates this error to maintain low-power precision. |
 
 ---
 
 ## 5. Final Results and Evaluation
 
-The final, fully optimized LightGBM model yields metrics that are reliable for a proactive system.
+The final, fully **optimised** LightGBM model yields metrics that are reliable for a proactive system.
 
 | Metric | Result | Interpretation |
 | :--- | :--- | :--- |
@@ -119,7 +119,7 @@ The overall $\text{MAE}$ of **$97.92$ PWM** is an average that masks the model's
 
 ## Conclusion and Next Steps
 
-The project successfully delivered a **robust, proactive ML controller** built on sound physics and optimized for deployment. The controller reliably calculates the preemptive PWM needed right now, given the environment and the upcoming demand schedule.
+The project successfully delivered a **robust, proactive ML controller** built on sound physics and **optimised** for deployment. The controller reliably calculates the preemptive PWM needed right now, given the environment and the upcoming demand schedule.
 
 The superior model for deployment is the **LightGBM Regressor** using the **Non-Skewed Log Transform** and the **Thermal-Only Feature Set**. The next and final step is the conversion of this model into C++ for deployment on the ESP32.
 
